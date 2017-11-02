@@ -23,6 +23,19 @@ def minarTablero(numMinas,tamanio):
         tableroMinado[celdas[0]][celdas[1]] = '1' #pongo unos?
     return tableroMinado
 
+def getVecinos(tableroMinado,fila,columna):
+    #me permite saber cuantas minas pueden llega a haber en torno al
+    #casillero elegido
+    #TODO, terminar funcion (Me fui a la facultad)
+    vecinos =[] #estos seran puntos (f,c)
+    for (fila-1) in range (fila+1):
+        for (columna -1) in range (columna +1):
+            if (fila-1) == 0 and (columna -1) == 0:
+                continue
+        elif tableroMinado[f][c] == 1:
+            vecinos.append((f,c))
+    return vecinos
+
 def mostrarTablero(tableroMinado):
     os.system('clear')
     tamanio = len(tableroMinado)
