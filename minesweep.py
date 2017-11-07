@@ -6,13 +6,13 @@ from random import randint
 import time
 
 def randomer(tamanio,numMinas):
-    celdaA = randint(0,tamanio)
-    celdaB = randint(0,tamanio)
+    celdaA = randint(1,tamanio-1) #a veces fallaba con 0,tamanio
+    celdaB = randint(1,tamanio-1) #ahora no, siempre devuelve un tablero
     return(celdaA,celdaB)
 
 def initTablero(tamanio):
     #inicializa el tablero vacio
-    tablero = [['0' for i in range(tamanio)] for i in range(tamanio)]
+    tablero = [[0 for i in range(tamanio)] for i in range(tamanio)]
     return (tablero)
 
 def minarTablero(numMinas,tamanio):
@@ -20,20 +20,18 @@ def minarTablero(numMinas,tamanio):
     tableroMinado = initTablero(tamanio)
     for i in range(numMinas):
         celdas =randomer(tamanio,numMinas)
-        tableroMinado[celdas[0]][celdas[1]] = '1' #pongo unos?
+        tableroMinado[celdas[0]][celdas[1]] = 1 #pongo unos?
     return tableroMinado
 
-def getVecinos(tableroMinado,fila,columna):
+def getVecinos(tableroMinado,f,c):
     #me permite saber cuantas minas pueden llega a haber en torno al
     #casillero elegido
-    #TODO, terminar funcion (Me fui a la facultad)
     vecinos =[] #estos seran puntos (f,c)
-    for (fila-1) in range (fila+1):
-        for (columna -1) in range (columna +1):
-            if (fila-1) == 0 and (columna -1) == 0:
-                continue
-        elif tableroMinado[f][c] == 1:
-            vecinos.append((f,c))
+    if tableroMinado[f][c] != 1:
+        for i in range (-1,2):
+            for j in range (-1,2):
+                if tableroMinado[f+i][c+j] == 1:
+                    vecinos.append((f+i,c+j))
     return vecinos
 
 def mostrarTablero(tableroMinado):
@@ -52,6 +50,11 @@ def jugar(minas, tamanio):
     tableroMinado = minarTablero(minas,tamanio)
     #while not perdiste:
     mostrarTablero(tableroMinado)
+#    for i in range(len(tableroMinado)):
+#        for j in range(len(tableroMinado)):
+#            vecinos = getVecinos(tableroMinado,i,j)
+    vecinos = getVecinos(tableroMinado,3,3)
+    print(vecinos)
 
 if __name__ == '__main__':
     #tamanio = input('Ingrese tamanio (0..9)')
